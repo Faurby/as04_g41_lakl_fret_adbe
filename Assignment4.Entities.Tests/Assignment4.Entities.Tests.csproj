@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Assignment4.Model\Assignment4.Model.csproj" />
+    <ProjectReference Include="..\Assignment4.Entities\Assignment4.Entities.csproj" />
   </ItemGroup>
 
 </Project>

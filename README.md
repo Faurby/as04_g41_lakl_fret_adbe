@@ -14,7 +14,7 @@ You are required to implement a model using Entity Framework Core for a simple k
 
 1. Setup and configure your database host of choice.
 
-1. Implement the following entities (*POCOs*) in the `Entities` folder.
+1. Implement the following entities (*POCOs*) in the `Entities` project.
 
     - Task
         - Id : int
@@ -33,12 +33,16 @@ You are required to implement a model using Entity Framework Core for a simple k
         - Name : string(50), required, unique
         - Tasks : many-to-many reference to *Task* entity
 
-1. Implement the `KanbanContext` required for the model above in the `Entities` folder.
+1. Ensure that the `State` property of the `Task` entity is stored as a `string`. See: <https://docs.microsoft.com/en-us/ef/core/modeling/value-conversions>.
 
-1. Implement and test the `TaskRepository` class.
+1. Implement the `KanbanContext` required for the model above in the `Entities` project.
+
+1. Implement and test the `ITaskRepository` interface in the `Core` project using the `TaskRepository` class in the `Entities` project.
 
 #### Notes
 
-Override the `OnModelCreating` method on the `KanbanContext` and use it to seed your database with data so you can test and implement the `TaskRepository` class. See: <https://docs.microsoft.com/en-us/ef/core/modeling/data-seeding> and <https://mockaroo.com/>.
+To test your repository you may want to generate some test data.
 
-Ensure that the `State` property of the `Task` entity is stored as a `string`. See: <https://docs.microsoft.com/en-us/ef/core/modeling/value-conversions>.
+Consider *seeding* or *custom initialization logic*, cf. <https://docs.microsoft.com/en-us/ef/core/modeling/data-seeding> and <https://mockaroo.com/>.
+
+You may want to ensure that your tests are run in a specific order: <https://docs.microsoft.com/en-us/dotnet/core/testing/order-unit-tests?pivots=xunit>.
