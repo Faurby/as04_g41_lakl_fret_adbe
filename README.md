@@ -64,16 +64,24 @@ Study the meaning of encapsulation, inheritance, and polymorphism in OO language
 
 ### Exercise 2
 
-For each of the SOLID principles, provide an example through either a UML diagram or a code listing that showcases the violation of the specific principle.
-_Note:_ the examples do not need to be sophisticated.
+As a maintainance activity (i.e., after having written the code): draw a class diagram representing your implementation of the entities for the C# part.  The purpose of the diagram should be to `document` the main relationships between the entities and their multiplicity.  
 
 ### Exercise 3
 
-For each of the examples provided for SE-2, provide a refactored solution as either a UML diagram or a code listing that showcases a possible solution respecting the principle violeted.
+As a maintainance activity (i.e., after having written the code): draw a state machine diagram representing your implementation of the task entity.  The purpose of the diagram should be to `document` the diffent states the entity can go through and the transitions that trigget the changes.  
+
+### Exercise 4
+
+For each of the SOLID principles, provide an example through either a UML diagram or a code listing that showcases the violation of the specific principle.
+_Note:_ the examples do not need to be sophisticated.
+
+### Exercise 5
+
+For each of the examples provided for SE-4, provide a refactored solution as either a UML diagram or a code listing that showcases a possible solution respecting the principle violeted.
 _Note:_ the examples do not need to be sophisticated.
 
 ### Note 
-Exercises 2 and 3 could be used in class to further discuss additional examples of the SOLID principles.  If you wish to present and discuss your examples discussed in class, I would be happy to include an hour in one of the future lectures.  Therefore, if the above sounds interesting, please do not hesitate to contact me.  The idea would be to have a brief slot in which you would present your example of one or more of the SOLID principles.
+Exercises 4 and 5 could be used in class to further discuss additional examples of the SOLID principles.  If you wish to present and discuss your examples discussed in class, I would be happy to include an hour in one of the future lectures.  Therefore, if the above sounds interesting, please do not hesitate to contact me.  The idea would be to have a brief slot in which you would present your example of one or more of the SOLID principles.
 
 
 
