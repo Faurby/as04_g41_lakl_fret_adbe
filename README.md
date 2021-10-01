@@ -46,3 +46,43 @@ To test your repository you may want to generate some test data.
 Consider *seeding* or *custom initialization logic*, cf. <https://docs.microsoft.com/en-us/ef/core/modeling/data-seeding> and <https://mockaroo.com/>.
 
 You may want to ensure that your tests are run in a specific order: <https://docs.microsoft.com/en-us/dotnet/core/testing/order-unit-tests?pivots=xunit>.
+
+
+
+
+
+
+
+
+
+
+## Software Engineering
+
+### Exercise 1
+
+Study the meaning of encapsulation, inheritance, and polymorphism in OO languages.  Provide a description of these concepts including UML diagram showcasing them.
+
+### Exercise 2
+
+For each of the SOLID principles, provide an example through either a UML diagram or a code listing that showcases the violation of the specific principle.
+_Note:_ the examples do not need to be sophisticated.
+
+### Exercise 3
+
+For each of the examples provided for SE-2, provide a refactored solution as either a UML diagram or a code listing that showcases a possible solution respecting the principle violeted.
+_Note:_ the examples do not need to be sophisticated.
+
+### Note 
+Exercises 2 and 3 could be used in class to further discuss additional examples of the SOLID principles.  If you wish to present and discuss your examples discussed in class, I would be happy to include an hour in one of the future lectures.  Therefore, if the above sounds interesting, please do not hesitate to contact me.  The idea would be to have a brief slot in which you would present your example of one or more of the SOLID principles.
+
+
+
+
+## Submitting the assignment
+
+To submit the assignment you need to create a .pdf document using LaTeX containing the answers to the SE questions and a link to a public repository containing your fork of the completed code with the solutions to the C&#35 part.  
+
+Members of the triplets should submit the same PDF file to pass the assignments.  Make sure all group names and ID are clearly marked on the front page. 
+
+
+
