@@ -88,7 +88,7 @@ Exercises 4 and 5 could be used in class to further discuss additional examples 
 
 ## Submitting the assignment
 
-To submit the assignment you need to create a .pdf document using LaTeX containing the answers to the SE questions and a link to a public repository containing your fork of the completed code with the solutions to the C&#35 part.  
+To submit the assignment you need to create a .pdf document using LaTeX containing the answers to the SE questions and a link to a public repository containing your fork of the completed code with the solutions to the C# part.  
 
 Members of the triplets should submit the same PDF file to pass the assignments.  Make sure all group names and ID are clearly marked on the front page. 
 
