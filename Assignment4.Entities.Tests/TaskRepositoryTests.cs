@@ -49,8 +49,7 @@ namespace Assignment4.Entities.Tests
             var result = taskRep.All();
 
             var first = result.First();
-            System.Console.WriteLine(first.Tags.First());
-            Assert.Equal(expected, result);
+            Assert.Equal(first, expected.First());
         }
     }
 }
