@@ -27,8 +27,15 @@ namespace Assignment4
 
         public static void Seed(KanbanContext context)
         {
-            // Fill with stuff to "seed" the database. Delete what is currently in it, and fill it
-            // with this data.
+            context.Database.ExecuteSqlRaw("DELETE dbo.Tags");
+            context.Database.ExecuteSqlRaw("DELETE dbo.TagTask");
+            context.Database.ExecuteSqlRaw("DELETE dbo.Tasks");
+            context.Database.ExecuteSqlRaw("DELETE dbo.Users");
+            context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('dbo.Tags', RESEED, 0)");
+            context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('dbo.Tasks', RESEED, 0)");
+            context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('dbo.Users', RESEED, 0)");
+
+            
 
         }
 

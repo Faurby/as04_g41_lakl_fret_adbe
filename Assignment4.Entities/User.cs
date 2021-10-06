@@ -6,6 +6,7 @@ namespace Assignment4.Entities
 {
     public class User
     {
+        [Key]
         public int ID {get; set;}
 
         [Required]
