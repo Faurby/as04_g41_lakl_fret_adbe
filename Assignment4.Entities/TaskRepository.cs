@@ -5,9 +5,15 @@ namespace Assignment4.Entities
 {
     public class TaskRepository : ITaskRepository
     {
+        
+        
+        public TaskRepository(){
+            
+        }
+
         public IReadOnlyCollection<TaskDTO> All()
         {
-            throw new System.NotImplementedException();
+            
         }
 
         public int Create(TaskDTO task)
