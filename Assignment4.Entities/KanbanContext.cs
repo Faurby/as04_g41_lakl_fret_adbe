@@ -1,3 +1,4 @@
+using Assignment4.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
@@ -16,7 +17,7 @@ namespace Assignment4.Entities
             modelBuilder
                 .Entity<Task>()
                 .Property(e => e.State)
-                .HasConversion(new EnumToStringConverter<Task.EState>());
+                .HasConversion(new EnumToStringConverter<State>());
         }
     }
 }
