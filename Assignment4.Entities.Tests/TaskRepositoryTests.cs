@@ -8,14 +8,90 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Lecture05.Entities;
+using Microsoft.Data.Sqlite;
+using System.Reflection;
 
 namespace Assignment4.Entities.Tests
 {
     public class TaskRepositoryTests : IDisposable
     {
+
+        private readonly IKanbanContext _context;
+        private readonly TaskRepository _repo;
+
+        public TaskRepositoryTests()
+        {
+            // Make SQLite server in memory
+            var connection = new SqliteConnection("Filename=:memory:");
+            connection.Open();
+            var build = new DbContextOptionsBuilder<KanbanContext>();
+            build.UseSqlite(connection);
+            var context = new KanbanContext(build.Options);
+            context.Database.EnsureCreated();
+
+            // Create temp data
+            var user1 = new User() { ID = 1, Email = "anton@email.com", Name = "Anton" };
+            var user2 = new User() { ID = 2, Email = "lasse@email.com", Name = "Lasse" };
+
+            var tag1 = new Tag() { ID = 1, Name = "Frontend" };
+            var tag2 = new Tag() { ID = 2, Name = "Backend" };
+
+            var task1 = new Task() { AssignedTo = user1, ID = 1, Title = "Add button", Description = "Adds a button", State = State.New, Tags = new[] { tag1 } };
+            var task2 = new Task() { AssignedTo = user1, ID = 2, Title = "Remove button", Description = "Removes a button", State = State.New, Tags = new[] { tag1 } };
+            var task3 = new Task() { AssignedTo = user2, ID = 3, Title = "Optimize algorithm", Description = "Optimizes algorithms", State = State.New, Tags = new[] { tag2 } };
+
+            context.Tasks.AddRange(task1, task2, task3);
+            context.SaveChanges();
+
+            // Set context and create Repository with context
+            _context = context;
+            _repo = new TaskRepository(_context);
+        }
+
+        // TODO: Find out how to compare 2 lists in records?
+        [Fact]
+        public void ReadAll_Returns_All_Tasks()
+        {
+            // Arrange
+            var tasks = _repo.ReadAll();
+
+            var expected = _context.Tasks.Count();
+            var actual = tasks.Count();
+
+            Assert.Equal(expected, actual);
+
+
+            // Assert.Collection(tasks,
+            //     t => Assert.Equal(new TaskDTO(1, "Add button", "Anton", null, State.New), t),
+            //     t => Assert.Equal(new TaskDTO(2, "Remove button", "Anton", new List<string>{ "frontend" }, State.New), t),
+            //     t => Assert.Equal(new TaskDTO(3, "Optimize algorithm", "Lasse", new List<string> { "backend" }, State.New), t)
+            // );
+        }
+
+        [Fact]
+        public void Create_creates_new_Task_with_generated_id()
+        {
+            // Arrange
+            var task = new TaskCreateDTO()
+            {
+                AssignedToId = 1,
+                Title = "Analyse buttons",
+                Description = "Analyses stuff",
+                Tags = new[] { "Frontend" }
+            };
+
+            var created = _repo.Create(task);
+            
+            Assert.Equal(4, created.TaskId);
+            Assert.Equal(Response.Created, created.Response);
+
+        }
+
+
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _context.Dispose();
         }
     }
 }

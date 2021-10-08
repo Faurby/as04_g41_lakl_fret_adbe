@@ -7,14 +7,28 @@ using Assignment4;
 using System.Linq;
 using System.Collections.ObjectModel;
 using System.Collections.Immutable;
+using Lecture05.Entities;
 
 namespace Assignment4.Entities
 {
     public class TaskRepository : ITaskRepository
     {
+
+        private readonly IKanbanContext _context;
+
+        public TaskRepository(IKanbanContext context)
+        {
+            _context = context;
+        }
         public (Response Response, int TaskId) Create(TaskCreateDTO task)
         {
-            throw new System.NotImplementedException();
+            var entity = new Task
+            {
+                AssignedTo = GetUser(task.AssignedToId),
+                Description = task.Description,
+                State = State.New,
+                
+            }
         }
 
         public Response Delete(int taskId)
@@ -29,7 +43,13 @@ namespace Assignment4.Entities
 
         public IReadOnlyCollection<TaskDTO> ReadAll()
         {
-            throw new System.NotImplementedException();
+            return _context.Tasks.Select(t => new TaskDTO(
+                t.ID,
+                t.Title,
+                t.AssignedTo.Name,
+                t.Tags.Select(s => s.Name).ToList(),
+                t.State))
+                .ToList().AsReadOnly();
         }
 
         public IReadOnlyCollection<TaskDTO> ReadAllByState(State state)
@@ -55,6 +75,11 @@ namespace Assignment4.Entities
         public Response Update(TaskUpdateDTO task)
         {
             throw new System.NotImplementedException();
+        }
+
+        private User GetUser(int? id)
+        {
+            return _context.Users.FirstOrDefault(u => u.ID == id);
         }
     }
 
