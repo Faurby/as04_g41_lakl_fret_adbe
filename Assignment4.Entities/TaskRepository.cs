@@ -12,72 +12,50 @@ namespace Assignment4.Entities
 {
     public class TaskRepository : ITaskRepository
     {
-
-        KanbanContext context;
-
-
-        public TaskRepository()
-        {
-            var connectionString = "Server=localhost;Database=Kanban-Board;User Id=sa;Password=34a6e100-d809-488a-9ce4-cfd2aeac387b";
-
-            var optionsBuilder = new DbContextOptionsBuilder<KanbanContext>().UseSqlServer(connectionString);
-            context = new KanbanContext(optionsBuilder.Options);
-        }
-
-        public IReadOnlyCollection<TaskDTO> All()
-        {
-            // var taskList = context.Tasks.ToList();
-
-            // System.Console.WriteLine(taskList);
-
-            // var taskDTOList = new List<TaskDTO>();
-            // foreach (var t in taskList) {
-            //     var taskDTO = new TaskDTO{Id = t.ID, 
-            //     AssignedToId = t.AssignedTo.ID, 
-            //     Description = t.Description, 
-            //     State = t.State, 
-            //     Tags = (IReadOnlyCollection<string>)t.Tags, 
-            //     Title = t.Title};
-
-            //     taskDTOList.Add(taskDTO);
-            // }
-
-            var tasks = context.Tasks;
-            var list = tasks.Select(t => new TaskDTO {
-                Id = t.ID,
-                AssignedToId = t.AssignedTo.ID,
-                Description = t.Description,
-                State = t.State,
-                Tags = t.Tags.Select(tag => tag.ToString()).ToList().AsReadOnly(),
-                Title = t.Title
-            });
-
-            return list.ToList<TaskDTO>().AsReadOnly();
-        }
-
-        public int Create(TaskDTO task)
+        public (Response Response, int TaskId) Create(TaskCreateDTO task)
         {
             throw new System.NotImplementedException();
         }
 
-        public void Delete(int taskId)
+        public Response Delete(int taskId)
         {
             throw new System.NotImplementedException();
         }
 
-        public void Dispose()
+        public TaskDetailsDTO Read(int taskId)
         {
             throw new System.NotImplementedException();
         }
 
-        public TaskDetailsDTO FindById(int id)
+        public IReadOnlyCollection<TaskDTO> ReadAll()
         {
             throw new System.NotImplementedException();
         }
 
-        public void Update(TaskDTO task)
+        public IReadOnlyCollection<TaskDTO> ReadAllByState(State state)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IReadOnlyCollection<TaskDTO> ReadAllByTag(string tag)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IReadOnlyCollection<TaskDTO> ReadAllByUser(int userId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IReadOnlyCollection<TaskDTO> ReadAllRemoved()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Response Update(TaskUpdateDTO task)
         {
             throw new System.NotImplementedException();
         }
     }
+
 }

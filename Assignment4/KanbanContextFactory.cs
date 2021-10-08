@@ -4,6 +4,7 @@ using Assignment4.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
+using Assignment4.Core;
 
 namespace Assignment4
 {
@@ -35,9 +36,9 @@ namespace Assignment4
             context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('dbo.Tasks', RESEED, 0)");
             context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('dbo.Users', RESEED, 0)");
 
-            var addButton = new Task { Title = "Add button", Description = "Add a button to the page", State = Task.EState.New };
-            var removeButton = new Task { Title = "Remove button", Description = "Removes a button from the page", State = Task.EState.New };
-            var editButton = new Task { Title = "Edit a button", Description = "Edts a button on the page", State = Task.EState.New };
+            var addButton = new Task { Title = "Add button", Description = "Add a button to the page", State = State.New};
+            var removeButton = new Task { Title = "Remove button", Description = "Removes a button from the page", State = State.New };
+            var editButton = new Task { Title = "Edit a button", Description = "Edts a button on the page", State = State.New };
 
             var ui = new Tag { Name = "ui", Tasks = new[] { addButton, removeButton, editButton } };
 
@@ -45,9 +46,9 @@ namespace Assignment4
             removeButton.Tags = new[] { ui };
             editButton.Tags = new[] { ui };
 
-            var optimizeAlgorithm = new Task { Title = "Optimize a algorithm", Description = "Optimizes a algorithm in the backend", State = Task.EState.New };
-            var updateDatabase = new Task { Title = "Update the database", Description = "Updates the database", State = Task.EState.New };
-            var refactorStructure = new Task { Title = "Refactor the structure", Description = "Refactors the structure", State = Task.EState.New };
+            var optimizeAlgorithm = new Task { Title = "Optimize a algorithm", Description = "Optimizes a algorithm in the backend", State = State.New };
+            var updateDatabase = new Task { Title = "Update the database", Description = "Updates the database", State = State.New };
+            var refactorStructure = new Task { Title = "Refactor the structure", Description = "Refactors the structure", State = State.New };
 
 
             var backend = new Tag { Name = "backend", Tasks = new[] { optimizeAlgorithm, updateDatabase, refactorStructure } };

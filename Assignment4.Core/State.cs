@@ -1,4 +1,4 @@
-namespace Assignment4.Core
+﻿namespace Assignment4.Core
 {
     public enum State
     {
