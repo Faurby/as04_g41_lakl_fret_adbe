@@ -8,6 +8,7 @@ using System.Linq;
 using System.Collections.ObjectModel;
 using System.Collections.Immutable;
 using Lecture05.Entities;
+using System;
 
 namespace Assignment4.Entities
 {
@@ -22,23 +23,70 @@ namespace Assignment4.Entities
         }
         public (Response Response, int TaskId) Create(TaskCreateDTO task)
         {
+            var (response, user) = GetUser(task.AssignedToId);
+            if (response == Response.BadRequest)
+            {
+                return (Response.BadRequest, -1);
+            }
+
             var entity = new Task
             {
-                AssignedTo = GetUser(task.AssignedToId),
+                AssignedTo = user,
                 Description = task.Description,
                 State = State.New,
-                
-            }
+                Tags = GetTags(task.Tags),
+                Title = task.Title,
+                Created = DateTime.Now,
+                StateUpdated = DateTime.Now
+            };
+
+            _context.Tasks.Add(entity);
+            _context.SaveChanges();
+
+            return (Response.Created, entity.ID);
         }
 
         public Response Delete(int taskId)
         {
-            throw new System.NotImplementedException();
+            var taskToBeDeleted = GetTask(taskId);
+
+            if (taskToBeDeleted == null)
+            {
+                return Response.NotFound;
+            }
+            else
+            {
+                if (taskToBeDeleted.State == State.Active)
+                {
+                    taskToBeDeleted.State = State.Removed;
+                    _context.Tasks.Update(taskToBeDeleted);
+                    _context.SaveChanges();
+                    return Response.Deleted;
+                }
+                else
+                {
+                    return Response.Conflict;
+                }
+            }
+        
         }
 
         public TaskDetailsDTO Read(int taskId)
         {
-            throw new System.NotImplementedException();
+            var tasks = from c in _context.Tasks
+                        where c.ID == taskId
+                        select new TaskDetailsDTO(
+                            c.ID,
+                            c.Title,
+                            c.Description,
+                            c.Created,
+                            c.AssignedTo.Name,
+                            c.Tags.Select(t => t.Name).ToList().AsReadOnly(),
+                            c.State,
+                            c.StateUpdated
+                        );
+
+            return tasks.FirstOrDefault();
         }
 
         public IReadOnlyCollection<TaskDTO> ReadAll()
@@ -77,9 +125,39 @@ namespace Assignment4.Entities
             throw new System.NotImplementedException();
         }
 
-        private User GetUser(int? id)
+        private (Response, User) GetUser(int? id)
         {
-            return _context.Users.FirstOrDefault(u => u.ID == id);
+            if (id != null)
+            {
+                var user = _context.Users.FirstOrDefault(u => u.ID == id);
+                if (user == null)
+                {
+                    return (Response.BadRequest, null);
+                }
+                else
+                {
+                    return (Response.Found, user);
+                }
+            }
+            else
+            {
+                return (Response.NotFound, null);
+            }
+        }
+
+        private Task GetTask(int taskId)
+        {
+            return _context.Tasks.Find(taskId);
+        }
+
+        private ICollection<Tag> GetTags(ICollection<string> tags)
+        {
+            var list = new List<Tag>();
+            foreach (var tag in tags)
+            {
+                list.Add(_context.Tags.FirstOrDefault(t => t.Name == tag));
+            }
+            return list;
         }
     }
 

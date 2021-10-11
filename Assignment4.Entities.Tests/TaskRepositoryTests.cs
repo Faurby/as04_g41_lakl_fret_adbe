@@ -31,15 +31,65 @@ namespace Assignment4.Entities.Tests
             context.Database.EnsureCreated();
 
             // Create temp data
-            var user1 = new User() { ID = 1, Email = "anton@email.com", Name = "Anton" };
-            var user2 = new User() { ID = 2, Email = "lasse@email.com", Name = "Lasse" };
+            var user1 = new User()
+            {
+                ID = 1,
+                Email = "anton@email.com",
+                Name = "Anton"
+            };
+            var user2 = new User()
+            {
+                ID = 2,
+                Email = "lasse@email.com",
+                Name = "Lasse"
+            };
 
-            var tag1 = new Tag() { ID = 1, Name = "Frontend" };
-            var tag2 = new Tag() { ID = 2, Name = "Backend" };
+            var tag1 = new Tag()
+            {
+                ID = 1,
+                Name = "Frontend"
+            };
+            var tag2 = new Tag()
+            {
+                ID = 2,
+                Name = "Backend"
+            };
 
-            var task1 = new Task() { AssignedTo = user1, ID = 1, Title = "Add button", Description = "Adds a button", State = State.New, Tags = new[] { tag1 } };
-            var task2 = new Task() { AssignedTo = user1, ID = 2, Title = "Remove button", Description = "Removes a button", State = State.New, Tags = new[] { tag1 } };
-            var task3 = new Task() { AssignedTo = user2, ID = 3, Title = "Optimize algorithm", Description = "Optimizes algorithms", State = State.New, Tags = new[] { tag2 } };
+            var task1 = new Task()
+            {
+                AssignedTo = user1,
+                // ID = 1,
+                Title = "Add button",
+                Description = "Adds a button",
+                State = State.New,
+                Tags = new[] { tag1 },
+                Created = DateTime.Now,
+                StateUpdated = DateTime.Now
+            };
+
+            var task2 = new Task()
+            {
+                AssignedTo = user1,
+                // ID = 2,
+                Title = "Remove button",
+                Description = "Removes a button",
+                State = State.New,
+                Tags = new[] { tag1 },
+                Created = DateTime.Now,
+                StateUpdated = DateTime.Now
+            };
+
+            var task3 = new Task()
+            {
+                AssignedTo = user2,
+                // ID = 3,
+                Title = "Optimize algorithm",
+                Description = "Optimizes algorithms",
+                State = State.Active,
+                Tags = new[] { tag2 },
+                Created = DateTime.Now,
+                StateUpdated = DateTime.Now
+            };
 
             context.Tasks.AddRange(task1, task2, task3);
             context.SaveChanges();
@@ -82,10 +132,55 @@ namespace Assignment4.Entities.Tests
             };
 
             var created = _repo.Create(task);
-            
+
             Assert.Equal(4, created.TaskId);
             Assert.Equal(Response.Created, created.Response);
+        }
 
+        [Fact]
+        public void Read_Returns_TaskDetailsDTO_from_ID()
+        {
+            //Given
+            var time = DateTime.Now;
+            var expected = new TaskDetailsDTO(
+                1,
+                "Add button",
+                "Adds a button",
+                time,
+                "Anton",
+                new[] { "Frontend" },
+                State.New,
+                DateTime.Now
+            );
+
+            //When
+            var actual = _repo.Read(1);
+
+
+            //Then
+            Assert.True(expected.TestEquals(actual));
+        }
+
+        [Fact]
+        public void Delete_Returns_Proper_Response()
+        {
+            //Given
+            var expected = Response.Deleted;
+            var actual = _repo.Delete(3);
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void Delete_Changes_State_To_Removed()
+        {
+            _repo.Delete(3);
+
+            var expected = State.Removed;
+
+            var actual = _context.Tasks.Find(3).State;
+
+            Assert.Equal(expected, actual);
         }
 
 
