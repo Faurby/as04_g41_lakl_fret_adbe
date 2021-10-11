@@ -183,6 +183,47 @@ namespace Assignment4.Entities.Tests
             Assert.Equal(expected, actual);
         }
 
+        [Fact]
+        public void ReadAllByState_Returns_List_Of_Tasks_By_State()
+        {
+            //Given
+            var expected = new List<int> { 1, 2 };
+            var actual = _repo.ReadAllByState(State.New);
+
+            for (int i = 0; i < expected.Count; i++)
+            {
+                Assert.Equal(expected.ElementAt(i), actual.ElementAt(i).Id);
+            }
+        }
+
+        [Fact]
+        public void ReadAllByTag_Returns_List_Of_Tasks_By_Tag()
+        {
+            //Given
+            var expected = new List<int> { 1, 2 };
+            var actual = _repo.ReadAllByTag("Frontend");
+
+            for (int i = 0; i < expected.Count; i++)
+            {
+                Assert.Equal(expected.ElementAt(i), actual.ElementAt(i).Id);
+            }
+        }
+
+        [Fact]
+        public void ReadAllRemoved_Returns_List_Of_Removed_Tasks()
+        {
+            //Given
+            var expected = new List<int>(3);
+
+            _repo.Delete(3);
+            var actual = _repo.ReadAllRemoved();
+
+            for (int i = 0; i < expected.Count; i++)
+            {
+                Assert.Equal(expected.ElementAt(i), actual.ElementAt(i).Id);
+            }
+        }
+
 
         public void Dispose()
         {

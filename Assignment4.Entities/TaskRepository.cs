@@ -68,7 +68,7 @@ namespace Assignment4.Entities
                     return Response.Conflict;
                 }
             }
-        
+
         }
 
         public TaskDetailsDTO Read(int taskId)
@@ -102,12 +102,32 @@ namespace Assignment4.Entities
 
         public IReadOnlyCollection<TaskDTO> ReadAllByState(State state)
         {
-            throw new System.NotImplementedException();
+            var tasks = from t in _context.Tasks
+                        where t.State == state
+                        select new TaskDTO(
+                            t.ID,
+                            t.Title,
+                            t.AssignedTo.Name,
+                            t.Tags.Select(t => t.Name).ToList().AsReadOnly(),
+                            t.State
+                            );
+
+            return tasks.ToList().AsReadOnly();
         }
 
         public IReadOnlyCollection<TaskDTO> ReadAllByTag(string tag)
         {
-            throw new System.NotImplementedException();
+            var tasks = from t in _context.Tasks
+                        where t.Tags.Contains(GetTag(tag))
+                        select new TaskDTO(
+                            t.ID,
+                            t.Title,
+                            t.AssignedTo.Name,
+                            t.Tags.Select(t => t.Name).ToList().AsReadOnly(),
+                            t.State
+                            );
+
+            return tasks.ToList().AsReadOnly();
         }
 
         public IReadOnlyCollection<TaskDTO> ReadAllByUser(int userId)
@@ -117,7 +137,7 @@ namespace Assignment4.Entities
 
         public IReadOnlyCollection<TaskDTO> ReadAllRemoved()
         {
-            throw new System.NotImplementedException();
+            return ReadAllByState(State.Removed);
         }
 
         public Response Update(TaskUpdateDTO task)
@@ -158,6 +178,11 @@ namespace Assignment4.Entities
                 list.Add(_context.Tags.FirstOrDefault(t => t.Name == tag));
             }
             return list;
+        }
+
+        private Tag GetTag(string tagName) 
+        {
+            return _context.Tags.Where(t => t.Name == tagName).FirstOrDefault();
         }
     }
 
