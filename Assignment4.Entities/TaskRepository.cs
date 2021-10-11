@@ -10,6 +10,7 @@ using System.Collections.Immutable;
 using Lecture05.Entities;
 using System;
 
+
 namespace Assignment4.Entities
 {
     public class TaskRepository : ITaskRepository
@@ -44,6 +45,7 @@ namespace Assignment4.Entities
             _context.SaveChanges();
 
             return (Response.Created, entity.ID);
+
         }
 
         public Response Delete(int taskId)
@@ -87,6 +89,7 @@ namespace Assignment4.Entities
                         );
 
             return tasks.FirstOrDefault();
+
         }
 
         public IReadOnlyCollection<TaskDTO> ReadAll()
@@ -98,6 +101,7 @@ namespace Assignment4.Entities
                 t.Tags.Select(s => s.Name).ToList(),
                 t.State))
                 .ToList().AsReadOnly();
+
         }
 
         public IReadOnlyCollection<TaskDTO> ReadAllByState(State state)
@@ -113,6 +117,7 @@ namespace Assignment4.Entities
                             );
 
             return tasks.ToList().AsReadOnly();
+
         }
 
         public IReadOnlyCollection<TaskDTO> ReadAllByTag(string tag)
@@ -128,6 +133,7 @@ namespace Assignment4.Entities
                             );
 
             return tasks.ToList().AsReadOnly();
+
         }
 
         public IReadOnlyCollection<TaskDTO> ReadAllByUser(int userId)
@@ -143,11 +149,13 @@ namespace Assignment4.Entities
                         );
 
             return tasks.ToList().AsReadOnly();
+
         }
 
         public IReadOnlyCollection<TaskDTO> ReadAllRemoved()
         {
             return ReadAllByState(State.Removed);
+
         }
 
         public Response Update(TaskUpdateDTO task)
@@ -217,6 +225,7 @@ namespace Assignment4.Entities
         private Tag GetTag(string tagName)
         {
             return _context.Tags.Where(t => t.Name == tagName).FirstOrDefault();
+
         }
     }
 

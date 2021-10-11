@@ -12,10 +12,17 @@ using Lecture05.Entities;
 using Microsoft.Data.Sqlite;
 using System.Reflection;
 
+
 namespace Assignment4.Entities.Tests
 {
     public class TaskRepositoryTests : IDisposable
     {
+        static IConfiguration LoadConfiguration()
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .AddUserSecrets<TaskRepositoryTests>();
 
         private readonly IKanbanContext _context;
         private readonly TaskRepository _repo;
@@ -250,6 +257,7 @@ namespace Assignment4.Entities.Tests
         public void Dispose()
         {
             _context.Dispose();
+
         }
     }
 }

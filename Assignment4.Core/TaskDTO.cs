@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 
+
 namespace Assignment4.Core
 {
     public record TaskDTO(int Id, string Title, string AssignedToName, IReadOnlyCollection<string> Tags, State State);
@@ -28,11 +29,9 @@ namespace Assignment4.Core
         }
     }
     
-
-
-
     public record TaskCreateDTO
     {
+
         [Required]
         [StringLength(100)]
         public string Title { get; init; }

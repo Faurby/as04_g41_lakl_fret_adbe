@@ -22,6 +22,7 @@ namespace Assignment4.Entities
 
         public DateTime StateUpdated { get; set; }  
 
+
         public string Description { get; set; }
 
         public State State { get; set; }
