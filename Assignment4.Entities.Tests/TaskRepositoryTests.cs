@@ -224,6 +224,28 @@ namespace Assignment4.Entities.Tests
             }
         }
 
+        [Fact]
+        public void Update_Changes_Title()
+        {
+            _repo.Update(new TaskUpdateDTO() {Id = 1, AssignedToId = 1, Description = "Adds a button", State = State.Active, Title = "Add another button", Tags = new [] { "Frontend"}});
+
+            var expected = "Add another button";
+
+            var actual = _context.Tasks.Find(1).Title;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void ReadAllByUser_given_id_1_returns_add_button_and_remove_button()
+        {
+            var tasks = _repo.ReadAllByUser(1);
+
+            var expected = 2;
+            var actual = tasks.Count();
+
+            Assert.Equal(expected, actual);
+        }
 
         public void Dispose()
         {
