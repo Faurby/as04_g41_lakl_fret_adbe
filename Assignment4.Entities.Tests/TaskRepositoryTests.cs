@@ -183,6 +183,16 @@ namespace Assignment4.Entities.Tests
             Assert.Equal(expected, actual);
         }
 
+        [Fact]
+        public void ReadAllByUser_given_id_1_returns_add_button_and_remove_button()
+        {
+            var tasks = _repo.ReadAllByUser(1);
+
+            var expected = 2;
+            var actual = tasks.Count();
+
+            Assert.Equal(expected, actual);
+        }
 
         public void Dispose()
         {

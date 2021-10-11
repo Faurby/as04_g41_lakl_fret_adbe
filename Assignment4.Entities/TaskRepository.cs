@@ -112,17 +112,48 @@ namespace Assignment4.Entities
 
         public IReadOnlyCollection<TaskDTO> ReadAllByUser(int userId)
         {
-            throw new System.NotImplementedException();
+            var tasks = from c in _context.Tasks
+                        where c.userId == userId
+                        select new TaskDTO(
+                            c.ID,
+                            c.Title,
+                            c.Description,
+                            c.AssignedTo.Name,
+                            c.Tags.Select(t => t.Name).ToList().AsReadOnly(),
+                            c.State
+                        );
+
+            return tasks.AsReadOnly();
         }
 
         public IReadOnlyCollection<TaskDTO> ReadAllRemoved()
         {
-            throw new System.NotImplementedException();
+            return ReadAllByState(State.Removed);
         }
 
         public Response Update(TaskUpdateDTO task)
         {
-            throw new System.NotImplementedException();
+            var taskToBeUpdated = GetTask(task.ID);
+
+            if (taskToBeUpdated == null)
+            {
+                return Response.NotFound;
+            }
+            else
+            {
+                taskToBeUpdated.AssignedToId = task.user;
+                taskToBeUpdated.Description = task.Description;
+                taskToBeUpdated.State = State.New;
+                taskToBeUpdated.Tags = GetTags(task.Tags),;
+                taskToBeUpdated.Title = task.Title;
+                taskToBeUpdated.Created = task.Created;
+                taskToBeUpdated.StateUpdated = DateTime.Now;
+                
+                _context.Tasks.Update(taskToBeUpdated);
+                _context.SaveChanges();
+
+                return Response.Updated;
+            }
         }
 
         private (Response, User) GetUser(int? id)
