@@ -17,13 +17,6 @@ namespace Assignment4.Entities.Tests
 {
     public class TaskRepositoryTests : IDisposable
     {
-        static IConfiguration LoadConfiguration()
-        {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .AddUserSecrets<TaskRepositoryTests>();
-
         private readonly IKanbanContext _context;
         private readonly TaskRepository _repo;
 
@@ -234,7 +227,7 @@ namespace Assignment4.Entities.Tests
         [Fact]
         public void Update_Changes_Title()
         {
-            _repo.Update(new TaskUpdateDTO() {Id = 1, AssignedToId = 1, Description = "Adds a button", State = State.Active, Title = "Add another button", Tags = new [] { "Frontend"}});
+            _repo.Update(new TaskUpdateDTO() { Id = 1, AssignedToId = 1, Description = "Adds a button", State = State.Active, Title = "Add another button", Tags = new[] { "Frontend" } });
 
             var expected = "Add another button";
 
